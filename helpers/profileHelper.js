@@ -5,6 +5,7 @@ const getProfileDetails = (user) => {
         phone: user.phone,
         bio: user.bio,
         image_url: user.image_url,
+        profile_type: user.profileType,
     }
     return profileDetails;
 }

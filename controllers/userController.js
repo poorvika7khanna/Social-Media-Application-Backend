@@ -176,11 +176,21 @@ const getAllProfiles = asyncHandler(async (req,res) => {
     {
         return getPublicProfiles(req,res);
     }
-    // const allProfiles = await User.find({  })
+    const allUsers = await User.find({ role: { $ne: 'ADMIN' } });
+    const allProfileDetailsList = [];
+    allUsers.forEach(user => {
+        allProfileDetailsList.push(getProfileDetails(user));
+    });
+    return res.json(allProfileDetailsList);
 });
 
 const getPublicProfiles = asyncHandler(async (req,res) => {
-
+    const publicUsers = await User.find({ _id: { $ne: req.user.id}, profileType: 'PUBLIC',  role: { $ne: 'ADMIN' } });
+    const profileDetailsList = [];
+    publicUsers.forEach(user => {
+        profileDetailsList.push(getProfileDetails(user));
+    });
+    return res.json(profileDetailsList);
 });
 
 module.exports = {
